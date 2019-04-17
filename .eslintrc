@@ -20,6 +20,8 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
+    "react/destructuring-assignment": "off",
+    "react/no-array-index-key": "off",
     "react/jsx-filename-extension": [
       "error",
       {
@@ -29,7 +31,14 @@
     "semi": ["error", "always"],
     "quotes": ["error", "single"],
     "jsx-quotes": ["error", "prefer-single"],
-    "operator-linebreak": ["error", "after"]
+    "operator-linebreak": "off",
+    "no-use-before-define": "off",
+    "implicit-arrow-linebreak": "off",
+    "no-else-return": "error",
+    "no-useless-return": "error",
+    "newline-before-return": "error",
+    "no-unused-vars": "off"
+
   },
   "settings": {
     "import/resolver": {

@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from 'react';
+import { animated, useSpring, interpolate } from 'react-spring';
 import styles from './Slider.module.scss';
 
 interface SliderProps {
@@ -7,10 +8,12 @@ interface SliderProps {
 }
 
 const Slider = (props: SliderProps) => {
+  const numberOfSlides = props.children.length;
+
   const [index, setIndex] = useState(0);
   const previousSlide = () =>
-    setIndex(i => Math.abs((i - 1) % props.children.length));
-  const nextSlide = () => setIndex(i => (i + 1) % props.children.length);
+    setIndex(i => (i <= 0 ? numberOfSlides - 1 : (i - 1) % numberOfSlides));
+  const nextSlide = () => setIndex(i => (i + 1) % numberOfSlides);
 
   return (
     <div className={styles.Container}>
@@ -20,16 +23,15 @@ const Slider = (props: SliderProps) => {
           width: `${100 * props.width}%`,
         }}
       >
-        {props.children.map((x, i) => (
-          <Slide
-            key={i}
-            index={i}
-            selectedIndex={index}
-            numberOfSlides={props.children.length}
-          >
-            {x}
-          </Slide>
-        ))}
+        {props.children.map((x, i) => {
+          const position = calculatePosition(i, index, numberOfSlides);
+
+          return (
+            <Slide key={i} position={position}>
+              {x}
+            </Slide>
+          );
+        })}
       </div>
       <div className={styles.ButtonsContainer}>
         <button type='button' onClick={previousSlide}>
@@ -45,28 +47,23 @@ const Slider = (props: SliderProps) => {
 
 export default Slider;
 
-const Slide = (props: {
-  children: ReactNode;
-  index: number;
-  selectedIndex: number;
-  numberOfSlides: number;
-}) => {
-  const left = calculatePosition(
-    props.index,
-    props.selectedIndex,
-    props.numberOfSlides,
-  );
+const Slide = (props: { children: ReactNode; position: number }) => {
+  const { position } = props;
+  const { left } = useSpring({
+    left: 100 * position,
+    from: { left: 100 * position },
+  });
 
   return (
-    <div
+    <animated.div
       className={styles.Slide}
       style={{
-        left,
+        zIndex: Math.abs(position) > 1 ? -1 : 0,
+        left: left.interpolate((l: any) => `${l}%`),
       }}
     >
       {props.children}
-      {props.index}
-    </div>
+    </animated.div>
   );
 };
 
@@ -74,14 +71,12 @@ function calculatePosition(
   index: number,
   selectedIndex: number,
   numberOfSlides: number,
-): string {
+): number {
   const dist = index - selectedIndex;
   const relativeDist =
     Math.abs(dist) < numberOfSlides / 2
       ? dist
       : numberOfSlides - Math.abs(dist);
-  const absRelativeDist =
-    dist > relativeDist ? -Math.abs(relativeDist) : relativeDist;
 
-  return `${absRelativeDist * 100}%`;
+  return dist > relativeDist ? -Math.abs(relativeDist) : relativeDist;
 }

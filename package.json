@@ -1,5 +1,5 @@
 {
-  "name": "time-map",
+  "name": "react-template",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,6 +7,7 @@
     "@types/node": "11.13.4",
     "@types/react": "16.8.13",
     "@types/react-dom": "16.8.3",
+    "node-sass": "^4.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-scripts": "2.1.8",
@@ -15,6 +16,8 @@
   "scripts": {
     "lint": "npx eslint --fix \"src/**.ts*\"",
     "start": "react-scripts start",
+    "build-styles": "npx tcm src -p **/*.scss",
+    "prebuild": "npm run build-styles",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -38,6 +41,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "prettier": "^1.16.4",
-    "prettier-eslint": "^8.8.2"
+    "prettier-eslint": "^8.8.2",
+    "typed-css-modules": "^0.4.2"
   }
 }

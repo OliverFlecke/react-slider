@@ -1,33 +1,34 @@
-.App {
-  text-align: center;
+.Container {
+  width: 100%;
+  height: 20vh;
 }
 
-.AppLogo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+%Element {
+  width: 100%;
+  height: 100%;
 }
 
-.AppHeader {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.First {
+  @extend %Element;
+  background-color: red;
 }
 
-.AppLink {
-  color: #61dafb;
+.Second {
+  @extend %Element;
+  background-color: green;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Third {
+  @extend %Element;
+  background-color: blue;
+}
+
+.Fourth {
+  @extend %Element;
+  background-color: yellow;
+}
+
+.Fifth {
+  @extend %Element;
+  background-color: lightskyblue;
 }
